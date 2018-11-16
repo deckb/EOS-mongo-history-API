@@ -343,7 +343,7 @@ module.exports = (app, DB, swaggerSpec) => {
 	
 	    let query = { $or: [
 				{"action_traces.act.authorization.actor": accountName}, 
-				{"action_traces.inline_traces.receipt.receive": accountName}, 
+				{"action_traces.inline_traces.receipt.receiver": accountName}, 
 				{"action_traces.receipt.receiver": accountName}
 		]};
 	    if (action !== "undefined"){
