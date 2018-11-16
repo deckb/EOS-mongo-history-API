@@ -273,13 +273,9 @@ module.exports = (app, DB, swaggerSpec) => {
 	    let counter = Number(req.query.counter);
 	
 	    let query = { $or: [
-				{"act.account": accountName}, 
-				{"act.data.receiver": accountName}, 
-				{"act.data.from": accountName}, 
-				{"act.data.to": accountName},
-				{"act.data.name": accountName},
-				{"act.data.voter": accountName},
-				{"act.authorization.actor": accountName}
+			{"action_traces.act.authorization.actor": accountName}, 
+			{"action_traces.inline_traces.receipt.receiver": accountName}, 
+			{"action_traces.receipt.receiver": accountName}
 		]};
 	    if (action !== "undefined" && action !== "all"){
 	    	query["act.name"] = action;
@@ -328,6 +324,10 @@ module.exports = (app, DB, swaggerSpec) => {
 					console.error(err);
 					return res.status(500).end();
 			}
+			//const actions = result.map((action) =>
+			   
+			//);
+			console.log(result)
 			res.json(result)
 	    });
 	}
@@ -347,7 +347,7 @@ module.exports = (app, DB, swaggerSpec) => {
 				{"action_traces.receipt.receiver": accountName}
 		]};
 	    if (action !== "undefined"){
-	    	query["act.name"] = action;
+	    	query["action_traces.act.name"] = action;
 	    }
 
 	    let pos = Number(req.body.pos);
