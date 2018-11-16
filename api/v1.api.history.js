@@ -342,13 +342,9 @@ module.exports = (app, DB, swaggerSpec) => {
 	    let counter = Number(req.body.counter);
 	
 	    let query = { $or: [
-				{"act.account": accountName}, 
-				{"act.data.receiver": accountName}, 
-				{"act.data.from": accountName}, 
-				{"act.data.to": accountName},
-				{"act.data.name": accountName},
-				{"act.data.voter": accountName},
-				{"act.authorization.actor": accountName}
+				{"action_traces.act.authorization.actor": accountName}, 
+				{"action_traces.inline_traces.receipt.receive": accountName}, 
+				{"action_traces.receipt.receiver": accountName}
 		]};
 	    if (action !== "undefined"){
 	    	query["act.name"] = action;
@@ -375,7 +371,7 @@ module.exports = (app, DB, swaggerSpec) => {
 
 	    let parallelObject = {
 		   actions: (callback) => {
-           		DB.collection("action_traces").find(query).sort({"_id": sort}).skip(skip).limit(limit).toArray(callback);
+           		DB.collection("transaction_traces").find(query).sort({"_id": sort}).skip(skip).limit(limit).toArray(callback);
            }
 	    };
 
@@ -439,8 +435,10 @@ module.exports = (app, DB, swaggerSpec) => {
 					console.error(err);
 					return res.status(500).end();
 				};
+				DB.collection("")
 				res.json(result);
-	    });
+		});
+		
 	}
 
 	function getTransaction(req, res){
