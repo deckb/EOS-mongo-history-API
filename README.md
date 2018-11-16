@@ -34,7 +34,10 @@ mongo EOS --eval 'db.action_traces.createIndex({"act.data.from": 1, "_id":1},{ba
 mongo EOS --eval 'db.action_traces.createIndex({"act.data.to": 1, "_id":1},{background: true, sparse: true})'  
 mongo EOS --eval 'db.action_traces.createIndex({"act.data.name": 1, "_id":1},{background: true, sparse: true})'  
 mongo EOS --eval 'db.action_traces.createIndex({"act.data.voter": 1, "_id":1},{background: true, sparse: true})'  
-mongo EOS --eval 'db.action_traces.createIndex({"act.authorization.actor": 1, "_id":1},{background: true, sparse: true})'  
+mongo EOS --eval 'db.action_traces.createIndex({"act.authorization.actor": 1, "_id":1},{background: true, sparse: true})'
+mongo EOS --eval 'db.transaction_traces.createIndex({"action_traces.act.authorization.actor" : 1})'
+mongo EOS --eval 'db.transaction_traces.createIndex({"action_traces.inline_traces.receipt.receiver" : 1})'
+mongo EOS --eval 'db.transaction_traces.createIndex({"action_traces.receipt.receiver" : 1})'
 ```
 ## Other Indexes  
 ```
